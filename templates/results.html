@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Results | DigiGrow{% endblock %}
+{% block content %}
+<section class="module-hero"><div class="container"><span class="tag">RESULTS & ANALYSIS</span><h1>Training <span>impact.</span></h1><p class="section-intro">Live summary of responses collected through the DigiGrow survey.</p></div></section>
+<section class="section"><div class="container">
+  <div class="result-grid">
+    <div class="result"><strong>{{stats.total}}</strong><small>Total survey responses</small></div>
+    <div class="result"><strong>{{stats.pre}}</strong><small>Pre-training responses</small></div>
+    <div class="result"><strong>{{stats.post}}</strong><small>Post-training responses</small></div>
+    <div class="result"><strong>{{stats.pre_confidence}}</strong><small>Average pre confidence / 5</small></div>
+    <div class="result"><strong>{{stats.post_confidence}}</strong><small>Average post confidence / 5</small></div>
+    <div class="result"><strong>{{stats.pre_presence}}</strong><small>Average pre online presence / 5</small></div>
+    <div class="result"><strong>{{stats.post_presence}}</strong><small>Average post online presence / 5</small></div>
+    <div class="result"><strong>{{stats.confidence_change}}</strong><small>Confidence change / 5</small></div>
+    <div class="result"><strong>{{stats.presence_change}}</strong><small>Online presence change / 5</small></div>
+  </div>
+  <div class="comparison-note"><strong>How to read this:</strong> A positive change means the post-training average is higher than the pre-training average. Collect responses from the same or comparable participant groups for a meaningful evaluation.</div>
+  <div class="actions"><a class="btn primary" href="{{ url_for('admin') }}">Open Admin Dashboard →</a></div>
+</div></section>
+{% endblock %}
