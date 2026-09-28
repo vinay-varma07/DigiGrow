@@ -1,0 +1,328 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="container hero-grid">
+
+        <div>
+            <span class="tag">● EMPOWERING SMALL BUSINESSES</span>
+
+            <h1>
+                Grow Your Business <span>Digitally.</span>
+            </h1>
+
+            <p>
+                Learn simple, practical digital marketing skills to promote
+                your products, reach more customers, and build a stronger
+                online presence.
+            </p>
+
+            <div class="actions">
+                <a class="btn primary" href="{{ url_for('training') }}">
+                    Start Learning →
+                </a>
+
+                <a class="btn secondary" href="{{ url_for('about') }}">
+                    Explore DigiGrow
+                </a>
+            </div>
+        </div>
+
+        <div class="dashboard">
+
+            <div class="dash-head">
+                <div>
+                    <small>YOUR DIGITAL GROWTH</small>
+                    <h3>Business Overview</h3>
+                </div>
+
+                <span class="growth">+24.8%</span>
+            </div>
+
+            <div class="chart">
+                <svg viewBox="0 0 520 170" preserveAspectRatio="none">
+
+                    <path
+                        class="area"
+                        d="M0,145 C60,125 70,150 120,125 S180,105 230,120 S285,90 330,105 S390,60 430,78 S480,25 520,42 L520,170 L0,170Z"
+                    />
+
+                    <path
+                        class="line"
+                        d="M0,145 C60,125 70,150 120,125 S180,105 230,120 S285,90 330,105 S390,60 430,78 S480,25 520,42"
+                    />
+
+                </svg>
+            </div>
+
+            <div class="mini">
+
+                <div>
+                    <strong>1.2K</strong>
+                    <small>Customers reached</small>
+                </div>
+
+                <div>
+                    <strong>68%</strong>
+                    <small>Online engagement</small>
+                </div>
+
+                <div>
+                    <strong>24.8%</strong>
+                    <small>Monthly growth</small>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="stats">
+    <div class="container stats-grid">
+
+        <div class="stat">
+            <strong>6</strong>
+            <small>Training Modules</small>
+        </div>
+
+        <div class="stat">
+            <strong>100%</strong>
+            <small>Practical Learning</small>
+        </div>
+
+        <div class="stat">
+            <strong>24/7</strong>
+            <small>Resource Access</small>
+        </div>
+
+        <div class="stat">
+            <strong>1</strong>
+            <small>Goal: Business Growth</small>
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section">
+    <div class="container split">
+
+        <div class="info-card">
+            <div class="emoji">🚀</div>
+
+            <h3>
+                From Local<br>
+                to Digital
+            </h3>
+
+            <p>
+                DigiGrow helps small businesses take their first confident
+                steps online through simple and practical training.
+            </p>
+        </div>
+
+        <div>
+
+            <span class="tag">ABOUT DIGIGROW</span>
+
+            <h2>
+                Digital skills made <span>simple.</span>
+            </h2>
+
+            <p class="section-intro">
+                DigiGrow is a college Community Engagement Project designed
+                to support small business owners with easy-to-understand
+                digital marketing training.
+            </p>
+
+            <ul class="checks">
+
+                <li>
+                    <span>✓</span>
+                    Beginner-friendly explanations
+                </li>
+
+                <li>
+                    <span>✓</span>
+                    Practical activities and examples
+                </li>
+
+                <li>
+                    <span>✓</span>
+                    Training resources and tips
+                </li>
+
+            </ul>
+
+            <a class="link" href="{{ url_for('training') }}">
+                Explore training modules →
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section light">
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+                <span class="tag">LEARNING PATH</span>
+
+                <h2>
+                    Everything you need to
+                    <span>grow online.</span>
+                </h2>
+            </div>
+
+            <p class="section-intro">
+                Choose a module and learn at your own pace with practical
+                guidance.
+            </p>
+
+        </div>
+
+        <div class="cards">
+
+            {% for slug,m in modules.items() %}
+
+            <article class="card">
+
+                <div class="icon">
+                    {{m.icon}}
+                </div>
+
+                <h3>
+                    {{m.title}}
+                </h3>
+
+                <p>
+                    {{m.description}}
+                </p>
+
+                <div class="chips">
+
+                    {% for t in m.topics[:2] %}
+
+                    <span class="chip">
+                        {{t}}
+                    </span>
+
+                    {% endfor %}
+
+                </div>
+
+                <a class="link" href="{{ url_for('module',slug=slug) }}">
+                    Start Learning →
+                </a>
+
+            </article>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section">
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+                <span class="tag">PROJECT OBJECTIVES</span>
+
+                <h2>
+                    Learn. Apply. <span>Grow.</span>
+                </h2>
+            </div>
+
+            <p class="section-intro">
+                Practical outcomes for small businesses.
+            </p>
+
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="icon">🌐</div>
+
+                <h3>
+                    Build Online Presence
+                </h3>
+
+                <p>
+                    Create a clear and professional digital presence.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🎯</div>
+
+                <h3>
+                    Reach More Customers
+                </h3>
+
+                <p>
+                    Learn simple ways to connect with potential customers online.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🧠</div>
+
+                <h3>
+                    Develop Digital Skills
+                </h3>
+
+                <p>
+                    Build confidence using common business tools.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section light">
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+                <span class="tag">MEASURE IMPACT</span>
+
+                <h2>
+                    Ready to start your
+                    <span>digital journey?</span>
+                </h2>
+
+                <p class="section-intro">
+                    Take the pre-training survey before learning. After
+                    training, complete the post-training survey to help us
+                    measure the project impact.
+                </p>
+            </div>
+
+            <a class="btn primary" href="{{ url_for('survey') }}">
+                Take Survey →
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

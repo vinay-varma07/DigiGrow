@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="section admin-login-section">
+    <div class="container">
+
+        <div class="admin-login-wrapper">
+
+            <div class="admin-login-intro">
+                <span class="eyebrow">DIGIGROW ADMIN</span>
+
+                <h1>
+                    Welcome <span>Back.</span>
+                </h1>
+
+                <p>
+                    Sign in to manage training content, surveys,
+                    results and other DigiGrow activities.
+                </p>
+
+                <div class="admin-login-features">
+                    <div>
+                        <span>✓</span>
+                        <p>Manage training modules</p>
+                    </div>
+
+                    <div>
+                        <span>✓</span>
+                        <p>View survey responses</p>
+                    </div>
+
+                    <div>
+                        <span>✓</span>
+                        <p>Access project results</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-login-card">
+
+                <div class="admin-login-card-header">
+                    <div class="admin-lock-icon">
+                        🔐
+                    </div>
+
+                    <div>
+                        <span class="mini-label">ADMIN ACCESS</span>
+                        <h2>Sign In</h2>
+                    </div>
+                </div>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% for category, message in messages %}
+                        <div class="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endwith %}
+
+                <form method="POST">
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter admin username"
+                            autocomplete="username"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter admin password"
+                            autocomplete="current-password"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="btn btn-primary admin-login-button">
+                        Login to Dashboard
+                    </button>
+
+                </form>
+
+                <div class="admin-login-footer">
+                    <span>🔒</span>
+                    <p>Authorized admin access only</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

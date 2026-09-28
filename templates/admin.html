@@ -1,0 +1,448 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard | DigiGrow{% endblock %}
+{% block content %}
+
+<section class="admin-dashboard-hero">
+    <div class="container">
+
+        <div class="admin-dashboard-top">
+
+            <div>
+                <span class="eyebrow">DIGIGROW ADMIN</span>
+                <h1>Admin <span>Dashboard.</span></h1>
+                <p>
+                    Manage survey data, monitor training activity and
+                    review DigiGrow project results.
+                </p>
+            </div>
+
+            <div class="admin-dashboard-actions">
+
+                <a class="btn primary"
+                   href="{{ url_for('export_surveys') }}">
+                    Download Survey CSV ↓
+                </a>
+
+                <a class="btn secondary"
+                   href="{{ url_for('results') }}">
+                    View Public Results →
+                </a>
+
+                <a class="logout-btn"
+                   href="{{ url_for('admin_logout') }}">
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section light">
+    <div class="container">
+
+        <div class="section-head admin-section-head">
+            <div>
+                <span class="tag">OVERVIEW</span>
+                <h2>Project <span>statistics.</span></h2>
+            </div>
+
+            <p class="section-intro">
+                A quick overview of DigiGrow activity and survey data.
+            </p>
+        </div>
+
+        <div class="result-grid admin-stats">
+
+            <div class="result">
+                <strong>{{ stats.total }}</strong>
+                <small>Total survey responses</small>
+            </div>
+
+            <div class="result">
+                <strong>{{ stats.pre }}</strong>
+                <small>Pre-training responses</small>
+            </div>
+
+            <div class="result">
+                <strong>{{ stats.post }}</strong>
+                <small>Post-training responses</small>
+            </div>
+
+            <div class="result">
+                <strong>{{ stats.contacts }}</strong>
+                <small>Contact messages</small>
+            </div>
+
+            <div class="result">
+                <strong>{{ stats.module_views }}</strong>
+                <small>Total module views</small>
+            </div>
+
+            <div class="result">
+                <strong>{{ stats.post_confidence }}</strong>
+                <small>Average post confidence / 5</small>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section">
+    <div class="container">
+
+        <div class="section-head">
+            <div>
+                <span class="tag">PRE vs POST</span>
+                <h2>Training <span>comparison.</span></h2>
+            </div>
+
+            <p class="section-intro">
+                Average scores from submitted pre-training and
+                post-training surveys.
+            </p>
+        </div>
+
+        <div class="chart-grid">
+
+            <div class="chart-card">
+                <h3>Digital Marketing Confidence</h3>
+                <canvas id="confidenceChart"></canvas>
+            </div>
+
+            <div class="chart-card">
+                <h3>Online Presence</h3>
+                <canvas id="presenceChart"></canvas>
+            </div>
+
+            <div class="chart-card">
+                <h3>Platform Usage</h3>
+                <canvas id="platformChart"></canvas>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section light">
+    <div class="container">
+
+        <div class="section-head">
+            <div>
+                <span class="tag">MODULE ACTIVITY</span>
+                <h2>Training <span>usage.</span></h2>
+            </div>
+
+            <p class="section-intro">
+                Number of times each training module has been opened.
+            </p>
+        </div>
+
+        <div class="module-usage">
+
+            {% for row in module_rows %}
+
+                {% set max_views = module_rows[0].views if module_rows else 1 %}
+
+                <div class="usage-row">
+
+                    <div class="usage-label">
+                        <span>{{ row.title }}</span>
+                        <strong>{{ row.views }}</strong>
+                    </div>
+
+                    <div class="usage-track">
+                        <div
+                            class="usage-fill"
+                            style="width: {{ (row.views / max_views * 100) if max_views else 0 }}%"
+                        ></div>
+                    </div>
+
+                </div>
+
+            {% else %}
+
+                <p class="section-intro">
+                    No module activity recorded yet.
+                    Open a training module to start tracking views.
+                </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section">
+    <div class="container">
+
+        <div class="section-head">
+            <div>
+                <span class="tag">SURVEY DATA</span>
+                <h2>Collected <span>responses.</span></h2>
+            </div>
+
+            <p class="section-intro">
+                Latest responses are shown first.
+            </p>
+        </div>
+
+        <div class="table-wrap">
+
+            <table class="data-table">
+
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Business</th>
+                        <th>Platform</th>
+                        <th>Confidence</th>
+                        <th>Presence</th>
+                        <th>Challenge</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for r in responses %}
+
+                    <tr>
+
+                        <td>
+                            {{ r.created_at.strftime('%d-%m-%Y %H:%M')
+                               if r.created_at else '-' }}
+                        </td>
+
+                        <td>
+                            <span class="status {{ r.survey_type }}">
+                                {{ r.survey_type|upper }}
+                            </span>
+                        </td>
+
+                        <td>{{ r.name }}</td>
+                        <td>{{ r.business }}</td>
+                        <td>{{ r.platform }}</td>
+                        <td>{{ r.confidence }}/5</td>
+                        <td>{{ r.online_presence }}/5</td>
+                        <td>{{ r.challenges }}</td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="8">
+                            No survey responses yet.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section light">
+    <div class="container">
+
+        <div class="section-head">
+            <div>
+                <span class="tag">CONTACT</span>
+                <h2>Help <span>messages.</span></h2>
+            </div>
+
+            <p class="section-intro">
+                Messages submitted through the DigiGrow contact page.
+            </p>
+        </div>
+
+        <div class="table-wrap">
+
+            <table class="data-table">
+
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for c in contacts %}
+
+                    <tr>
+                        <td>
+                            {{ c.created_at.strftime('%d-%m-%Y %H:%M')
+                               if c.created_at else '-' }}
+                        </td>
+
+                        <td>{{ c.name }}</td>
+                        <td>{{ c.email }}</td>
+                        <td>{{ c.message }}</td>
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="4">
+                            No contact messages yet.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section">
+    <div class="container">
+
+        <div class="section-head">
+            <div>
+                <span class="tag">COMMON CHALLENGES</span>
+                <h2>What businesses <span>need.</span></h2>
+            </div>
+
+            <p class="section-intro">
+                Challenge entries grouped exactly as submitted in the survey.
+            </p>
+        </div>
+
+        <div class="cards challenge-cards">
+
+            {% for challenge, count in top_challenges %}
+
+            <article class="card">
+
+                <div class="icon">💡</div>
+
+                <h3>{{ challenge }}</h3>
+
+                <p>
+                    {{ count }} response{{ '' if count == 1 else 's' }}
+                </p>
+
+            </article>
+
+            {% else %}
+
+            <p class="section-intro">
+                No challenge data yet.
+            </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const chartData = {{ chart_data|tojson }};
+
+const chartOptions = {
+    responsive: true,
+    plugins: {
+        legend: {
+            display: false
+        }
+    },
+    scales: {
+        y: {
+            beginAtZero: true,
+            max: 5,
+            ticks: {
+                stepSize: 1
+            }
+        }
+    }
+};
+
+new Chart(
+    document.getElementById('confidenceChart'),
+    {
+        type: 'bar',
+        data: {
+            labels: ['Pre-training', 'Post-training'],
+            datasets: [{
+                label: 'Confidence',
+                data: chartData.confidence,
+                borderWidth: 1
+            }]
+        },
+        options: chartOptions
+    }
+);
+
+new Chart(
+    document.getElementById('presenceChart'),
+    {
+        type: 'bar',
+        data: {
+            labels: ['Pre-training', 'Post-training'],
+            datasets: [{
+                label: 'Online Presence',
+                data: chartData.presence,
+                borderWidth: 1
+            }]
+        },
+        options: chartOptions
+    }
+);
+
+new Chart(
+    document.getElementById('platformChart'),
+    {
+        type: 'doughnut',
+        data: {
+            labels: chartData.platform_labels,
+            datasets: [{
+                data: chartData.platform_values,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    }
+);
+
+</script>
+
+{% endblock %}
