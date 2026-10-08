@@ -50,7 +50,7 @@
     font-weight: 800;
 }
 
-.module-page .module-content .topic-list {
+.topic-list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px 18px;
@@ -77,10 +77,6 @@
     color: var(--muted);
     font-size: 13px;
     line-height: 2;
-}
-
-.tips-list li {
-    margin-bottom: 6px;
 }
 
 .tips-list li:last-child {
