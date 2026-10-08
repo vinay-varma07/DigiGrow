@@ -1,1 +1,103 @@
-{% extends "base.html" %}{% block title %}Survey | DigiGrow{% endblock %}{% block content %}<section class="module-hero"><div class="container"><span class="tag">SURVEY & FEEDBACK</span><h1>Tell us about your <span>digital journey.</span></h1><p class="section-intro">Complete this form before or after training. Your responses are stored in the DigiGrow database for project analysis.</p></div></section><section class="section"><div class="container form-wrap"><form method="post"><div class="form-grid"><div class="field"><label>Survey Type *</label><select name="survey_type" required><option value="pre">Pre-Training</option><option value="post">Post-Training</option></select></div><div class="field"><label>Your Name *</label><input name="name" required></div><div class="field"><label>Business Name *</label><input name="business" required></div><div class="field"><label>Main Platform Used *</label><select name="platform" required><option>Instagram</option><option>Facebook</option><option>WhatsApp Business</option><option>Google Business Profile</option><option>None yet</option><option>Other</option></select></div><div class="field"><label>Digital Marketing Confidence (1–5) *</label><select name="confidence" required>{% for n in range(1,6) %}<option value="{{n}}">{{n}}</option>{% endfor %}</select></div><div class="field"><label>Online Presence (1–5) *</label><select name="online_presence" required>{% for n in range(1,6) %}<option value="{{n}}">{{n}}</option>{% endfor %}</select></div><div class="field full"><label>Biggest Digital Marketing Challenge *</label><textarea name="challenges" required placeholder="Example: creating content, finding customers, using social media..."></textarea></div><div class="field full"><label>Feedback / Additional Comments</label><textarea name="feedback"></textarea></div></div><br><button class="btn primary form-button" type="submit">Submit Response →</button></form></div></section>{% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Survey | DigiGrow{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/survey.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="module-hero survey-page">
+    <div class="container">
+        <span class="tag">SURVEY & FEEDBACK</span>
+
+        <h1>
+            Tell us about your <span>digital journey.</span>
+        </h1>
+
+        <p class="section-intro">
+            Complete this form before or after training. Your responses are
+            stored in the DigiGrow database for project analysis.
+        </p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container form-wrap">
+        <form method="post">
+            <div class="form-grid">
+
+                <div class="field">
+                    <label for="survey_type">Survey Type *</label>
+                    <select id="survey_type" name="survey_type" required>
+                        <option value="pre">Pre-Training</option>
+                        <option value="post">Post-Training</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="name">Your Name *</label>
+                    <input id="name" name="name" required>
+                </div>
+
+                <div class="field">
+                    <label for="business">Business Name *</label>
+                    <input id="business" name="business" required>
+                </div>
+
+                <div class="field">
+                    <label for="platform">Main Platform Used *</label>
+                    <select id="platform" name="platform" required>
+                        <option>Instagram</option>
+                        <option>Facebook</option>
+                        <option>WhatsApp Business</option>
+                        <option>Google Business Profile</option>
+                        <option>None yet</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="confidence">Digital Marketing Confidence (1–5) *</label>
+                    <select id="confidence" name="confidence" required>
+                        {% for n in range(1, 6) %}
+                            <option value="{{ n }}">{{ n }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="online_presence">Online Presence (1–5) *</label>
+                    <select id="online_presence" name="online_presence" required>
+                        {% for n in range(1, 6) %}
+                            <option value="{{ n }}">{{ n }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="field full">
+                    <label for="challenges">Biggest Digital Marketing Challenge *</label>
+                    <textarea
+                        id="challenges"
+                        name="challenges"
+                        required
+                        placeholder="Example: creating content, finding customers, using social media..."
+                    ></textarea>
+                </div>
+
+                <div class="field full">
+                    <label for="feedback">Feedback / Additional Comments</label>
+                    <textarea id="feedback" name="feedback"></textarea>
+                </div>
+
+            </div>
+
+            <div class="actions">
+                <button class="btn primary form-button" type="submit">
+                    Submit Response →
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

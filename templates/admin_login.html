@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block title %}Admin Login | DigiGrow{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_login.css') }}">
+{% endblock %}
+
 {% block content %}
 
 <section class="section admin-login-section">
@@ -50,13 +56,7 @@
                     </div>
                 </div>
 
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% for category, message in messages %}
-                        <div class="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endwith %}
+
 
                 <form method="POST">
 
@@ -86,7 +86,7 @@
                         >
                     </div>
 
-                    <button type="submit" class="btn btn-primary admin-login-button">
+                    <button type="submit" class="btn primary admin-login-button">
                         Login to Dashboard
                     </button>
 

@@ -2,6 +2,10 @@
 
 {% block title %}{{ module.title }} | DigiGrow{% endblock %}
 
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/module.css') }}">
+{% endblock %}
+
 {% block content %}
 
 <section class="module-hero">

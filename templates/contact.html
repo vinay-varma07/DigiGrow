@@ -1,1 +1,54 @@
-{% extends "base.html" %}{% block title %}Contact | DigiGrow{% endblock %}{% block content %}<section class="module-hero"><div class="container"><span class="tag">CONTACT & HELP</span><h1>We're here to <span>help.</span></h1><p class="section-intro">Send a question or message to the DigiGrow project team.</p></div></section><section class="section"><div class="container form-wrap"><form method="post"><div class="form-grid"><div class="field"><label>Name *</label><input name="name" required></div><div class="field"><label>Email *</label><input type="email" name="email" required></div><div class="field full"><label>Message *</label><textarea name="message" required></textarea></div></div><br><button class="btn primary form-button" type="submit">Send Message →</button></form></div></section>{% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Contact | DigiGrow{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="module-hero contact-page">
+    <div class="container">
+        <span class="tag">CONTACT & HELP</span>
+
+        <h1>
+            We're here to <span>help.</span>
+        </h1>
+
+        <p class="section-intro">
+            Send a question or message to the DigiGrow project team.
+        </p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container form-wrap">
+        <form method="post">
+            <div class="form-grid">
+
+                <div class="field">
+                    <label for="name">Name *</label>
+                    <input id="name" name="name" required>
+                </div>
+
+                <div class="field">
+                    <label for="email">Email *</label>
+                    <input id="email" type="email" name="email" required>
+                </div>
+
+                <div class="field full">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+
+            </div>
+
+            <div class="actions">
+                <button class="btn primary form-button" type="submit">
+                    Send Message →
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

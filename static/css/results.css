@@ -1,0 +1,29 @@
+/* Results page */
+
+.results-page .result-grid {
+    gap: 18px;
+}
+
+.results-page .result {
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.comparison-note {
+    margin-top: 25px;
+    padding: 18px;
+    border-radius: 14px;
+    background: #f1f0ff;
+    color: #596276;
+    font-size: 12px;
+}
+
+.comparison-note strong {
+    color: var(--dark);
+}
+
+.results-page .actions {
+    margin-top: 25px;
+}

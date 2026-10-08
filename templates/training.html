@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Training | DigiGrow{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/training.css') }}">
+{% endblock %}
 {% block content %}
 
-<section class="module-hero">
+<section class="module-hero training-page">
     <div class="container">
         <span class="tag">DIGITAL MARKETING TRAINING</span>
 

@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Admin Dashboard | DigiGrow{% endblock %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
 {% block content %}
 
 <section class="admin-dashboard-hero">
@@ -365,84 +369,11 @@
 </section>
 
 
+<script id="chart-data" type="application/json">{{ chart_data|tojson }}</script>
+
+{% endblock %}
+
+{% block page_js %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-
-const chartData = {{ chart_data|tojson }};
-
-const chartOptions = {
-    responsive: true,
-    plugins: {
-        legend: {
-            display: false
-        }
-    },
-    scales: {
-        y: {
-            beginAtZero: true,
-            max: 5,
-            ticks: {
-                stepSize: 1
-            }
-        }
-    }
-};
-
-new Chart(
-    document.getElementById('confidenceChart'),
-    {
-        type: 'bar',
-        data: {
-            labels: ['Pre-training', 'Post-training'],
-            datasets: [{
-                label: 'Confidence',
-                data: chartData.confidence,
-                borderWidth: 1
-            }]
-        },
-        options: chartOptions
-    }
-);
-
-new Chart(
-    document.getElementById('presenceChart'),
-    {
-        type: 'bar',
-        data: {
-            labels: ['Pre-training', 'Post-training'],
-            datasets: [{
-                label: 'Online Presence',
-                data: chartData.presence,
-                borderWidth: 1
-            }]
-        },
-        options: chartOptions
-    }
-);
-
-new Chart(
-    document.getElementById('platformChart'),
-    {
-        type: 'doughnut',
-        data: {
-            labels: chartData.platform_labels,
-            datasets: [{
-                data: chartData.platform_values,
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }
-    }
-);
-
-</script>
-
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
 {% endblock %}

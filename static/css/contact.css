@@ -1,0 +1,9 @@
+/* Contact page */
+
+.contact-page .form-wrap {
+    max-width: 760px;
+}
+
+.contact-page .form-button {
+    min-width: 150px;
+}

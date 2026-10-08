@@ -1,0 +1,21 @@
+/* Training page */
+
+.training-page .cards {
+    align-items: stretch;
+}
+
+.training-page .card {
+    display: flex;
+    flex-direction: column;
+}
+
+.training-page .card .btn {
+    width: 100%;
+    margin-top: auto;
+}
+
+@media (max-width: 560px) {
+    .training-page .card .btn {
+        width: 100%;
+    }
+}

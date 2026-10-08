@@ -6,10 +6,19 @@ import io
 import os
 
 app = Flask(__name__)
-ADMIN_USERNAME = "admin"
-ADMIN_PASSWORD = "digigrow123"
-app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "digigrow-dev-secret")
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///digigrow.db"
+ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME", "admin")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD"," ")
+
+app.config["SECRET_KEY"] = os.environ.get(
+    "SECRET_KEY",
+    "digigrow-dev-secret"
+)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+    "DATABASE_URL",
+    "sqlite:///digigrow.db"
+)
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
@@ -2613,6 +2622,9 @@ def api_stats():
         "module_views": sum(m.views for m in ModuleProgress.query.all())
     })
 
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template("404.html"), 404
 
 @app.context_processor
 def inject_globals():
