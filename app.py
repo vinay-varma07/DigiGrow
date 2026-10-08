@@ -7,7 +7,7 @@ import os
 
 app = Flask(__name__)
 ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME", "admin")
-ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD"," ")
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD",)
 
 app.config["SECRET_KEY"] = os.environ.get(
     "SECRET_KEY",
