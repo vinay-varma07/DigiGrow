@@ -87,7 +87,30 @@
 
                 <div class="field full">
                     <label for="feedback">Feedback / Additional Comments</label>
-                    <textarea id="feedback" name="feedback"></textarea>
+                    <textarea
+                        id="feedback"
+                        name="feedback"
+                        placeholder="Share your experience with DigiGrow..."
+                    ></textarea>
+                </div>
+
+                <div class="field full">
+                    <div class="feedback-consent">
+                        <p><strong>Community Feedback Privacy</strong></p>
+                        <p>
+                            Your post-training feedback may appear below after admin approval.
+                            Your name will remain hidden unless you give permission below.
+                        </p>
+
+                        <label class="consent-option">
+                            <input
+                                type="checkbox"
+                                name="show_name"
+                                value="yes"
+                            >
+                            I give permission to display my name publicly alongside my feedback.
+                        </label>
+                    </div>
                 </div>
 
             </div>
@@ -98,6 +121,47 @@
                 </button>
             </div>
         </form>
+    </div>
+</section>
+
+<!-- Community Feedback appears directly below the survey form. -->
+<section class="section community-feedback-section" id="community-feedback">
+    <div class="container">
+        <div class="section-heading">
+            <span class="tag">COMMUNITY VOICES</span>
+            <h2>Community Feedback</h2>
+            <p class="section-intro">
+                Read about the experiences shared by participants after completing DigiGrow training.
+            </p>
+        </div>
+
+        {% if feedback_items %}
+            <div class="community-feedback-list">
+                {% for item in feedback_items %}
+                    <article class="community-feedback-card">
+                        <p class="community-feedback-quote">“{{ item.feedback }}”</p>
+                        <div class="community-feedback-author">
+                            <strong>
+                                {% if item.show_name %}
+                                    {{ item.name }}
+                                {% else %}
+                                    DigiGrow Participant
+                                {% endif %}
+                            </strong>
+                            <span>Post-training feedback</span>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="community-feedback-empty">
+                <h3>Feedback coming soon</h3>
+                <p>
+                    Community feedback shared by participants will appear here
+                    after it has been reviewed and approved by the DigiGrow admin.
+                </p>
+            </div>
+        {% endif %}
     </div>
 </section>
 {% endblock %}

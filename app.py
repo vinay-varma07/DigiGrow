@@ -34,6 +34,8 @@ class SurveyResponse(db.Model):
     online_presence = db.Column(db.Integer, nullable=False)
     challenges = db.Column(db.Text, nullable=False)
     feedback = db.Column(db.Text, nullable=True)
+    feedback_approved = db.Column(db.Boolean, nullable=False, default=False, server_default=db.text("FALSE"))
+    show_name = db.Column(db.Boolean, nullable=False, default=False, server_default=db.text("FALSE"))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 
@@ -2471,7 +2473,11 @@ def survey():
                 confidence=int(request.form["confidence"]),
                 online_presence=int(request.form["online_presence"]),
                 challenges=request.form["challenges"].strip(),
-                feedback=request.form.get("feedback", "").strip()
+                feedback=request.form.get("feedback", "").strip(),
+                # Feedback is private until an administrator approves it.
+                feedback_approved=False,
+                # Names are hidden unless the participant explicitly opts in.
+                show_name=request.form.get("show_name") == "yes"
             )
             db.session.add(response)
             db.session.commit()
@@ -2479,7 +2485,19 @@ def survey():
             return redirect(url_for("survey"))
         except (KeyError, ValueError):
             flash("Please complete all required survey fields.", "error")
-    return render_template("survey.html")
+    # Show approved community feedback below the survey form on the same page.
+    feedback_items = (
+        SurveyResponse.query
+        .filter(
+            SurveyResponse.survey_type == "post",
+            SurveyResponse.feedback.isnot(None),
+            db.func.length(db.func.trim(SurveyResponse.feedback)) > 0,
+            SurveyResponse.feedback_approved.is_(True)
+        )
+        .order_by(SurveyResponse.created_at.desc())
+        .all()
+    )
+    return render_template("survey.html", feedback_items=feedback_items)
 
 
 def average(rows, field):
@@ -2503,6 +2521,43 @@ def results():
     stats["confidence_change"] = round(stats["post_confidence"] - stats["pre_confidence"], 1) if pre and post else 0
     stats["presence_change"] = round(stats["post_presence"] - stats["pre_presence"], 1) if pre and post else 0
     return render_template("results.html", stats=stats)
+
+
+@app.route("/community-feedback")
+def community_feedback():
+    # Keep old links working, but display feedback on the Survey page.
+    return redirect(url_for("survey"))
+
+
+@app.route("/admin/feedback/<int:response_id>/approve", methods=["POST"])
+def approve_feedback(response_id):
+    if not session.get("admin_logged_in"):
+        return redirect(url_for("admin_login"))
+
+    response = db.session.get(SurveyResponse, response_id)
+    if response is None or response.survey_type != "post" or not (response.feedback or "").strip():
+        flash("This feedback cannot be approved.", "error")
+    else:
+        response.feedback_approved = True
+        db.session.commit()
+        flash("Feedback approved and published.", "success")
+    return redirect(url_for("admin"))
+
+
+@app.route("/admin/feedback/<int:response_id>/hide", methods=["POST"])
+def hide_feedback(response_id):
+    if not session.get("admin_logged_in"):
+        return redirect(url_for("admin_login"))
+
+    response = db.session.get(SurveyResponse, response_id)
+    if response is None:
+        flash("Feedback entry not found.", "error")
+    else:
+        response.feedback_approved = False
+        db.session.commit()
+        flash("Feedback hidden from the public page.", "success")
+    return redirect(url_for("admin"))
+
 
 @app.route("/admin/login", methods=["GET", "POST"])
 def admin_login():
@@ -2530,6 +2585,18 @@ def admin():
     responses = SurveyResponse.query.order_by(SurveyResponse.created_at.desc()).all()
     contacts = ContactMessage.query.order_by(ContactMessage.created_at.desc()).all()
     module_rows = ModuleProgress.query.order_by(ModuleProgress.views.desc()).all()
+    feedback_entries = (
+        SurveyResponse.query
+        .filter(
+            SurveyResponse.survey_type == "post",
+            SurveyResponse.feedback.isnot(None),
+            db.func.length(db.func.trim(SurveyResponse.feedback)) > 0
+        )
+        .order_by(SurveyResponse.created_at.desc())
+        .all()
+    )
+    pending_feedback = [r for r in feedback_entries if not r.feedback_approved]
+    approved_feedback = [r for r in feedback_entries if r.feedback_approved]
 
     pre = [r for r in responses if r.survey_type == "pre"]
     post = [r for r in responses if r.survey_type == "post"]
@@ -2569,7 +2636,9 @@ def admin():
         contacts=contacts,
         module_rows=module_rows,
         top_challenges=top_challenges,
-        chart_data=chart_data
+        chart_data=chart_data,
+        pending_feedback=pending_feedback,
+        approved_feedback=approved_feedback
     )
 
 
@@ -2637,8 +2706,35 @@ def init_db():
     print("DigiGrow database initialized.")
 
 
+def migrate_community_feedback_columns():
+    """Safely add the two feedback columns to an existing database.
+
+    This is an additive migration: it does not drop tables or alter existing
+    survey answers. Existing rows receive FALSE for both new columns.
+    """
+    from sqlalchemy import inspect, text
+
+    inspector = inspect(db.engine)
+    if "survey_response" not in inspector.get_table_names():
+        return
+
+    existing_columns = {column["name"] for column in inspector.get_columns("survey_response")}
+    with db.engine.begin() as connection:
+        if "feedback_approved" not in existing_columns:
+            connection.execute(text(
+                "ALTER TABLE survey_response "
+                "ADD COLUMN feedback_approved BOOLEAN NOT NULL DEFAULT FALSE"
+            ))
+        if "show_name" not in existing_columns:
+            connection.execute(text(
+                "ALTER TABLE survey_response "
+                "ADD COLUMN show_name BOOLEAN NOT NULL DEFAULT FALSE"
+            ))
+
+
 with app.app_context():
     db.create_all()
+    migrate_community_feedback_columns()
 
 
 if __name__ == "__main__":

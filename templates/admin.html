@@ -263,6 +263,66 @@
 </section>
 
 
+
+<section class="section light">
+    <div class="container">
+
+        <div class="section-head">
+            <div>
+                <span class="tag">COMMUNITY FEEDBACK</span>
+                <h2>Review <span>participant feedback.</span></h2>
+            </div>
+
+            <p class="section-intro">
+                Approve feedback to publish it on the Survey page, or hide feedback that is already published.
+            </p>
+        </div>
+
+        <div class="feedback-moderation-list">
+            <h3>Pending approval</h3>
+
+            {% for r in pending_feedback %}
+            <article class="card feedback-moderation-card">
+                <div class="feedback-moderation-meta">
+                    <strong>{{ r.name if r.show_name else 'Anonymous Participant' }}</strong>
+                    <span>{{ r.created_at.strftime('%d-%m-%Y %H:%M') if r.created_at else '-' }}</span>
+                </div>
+
+                <p>{{ r.feedback }}</p>
+
+                <form method="POST" action="{{ url_for('approve_feedback', response_id=r.id) }}">
+                    <button class="btn primary" type="submit">Approve & Publish</button>
+                </form>
+            </article>
+            {% else %}
+            <p class="section-intro">There is no feedback waiting for approval.</p>
+            {% endfor %}
+        </div>
+
+        <div class="feedback-moderation-list" style="margin-top: 36px;">
+            <h3>Published feedback</h3>
+
+            {% for r in approved_feedback %}
+            <article class="card feedback-moderation-card">
+                <div class="feedback-moderation-meta">
+                    <strong>{{ r.name if r.show_name else 'Anonymous Participant' }}</strong>
+                    <span>{{ r.created_at.strftime('%d-%m-%Y %H:%M') if r.created_at else '-' }}</span>
+                </div>
+
+                <p>{{ r.feedback }}</p>
+
+                <form method="POST" action="{{ url_for('hide_feedback', response_id=r.id) }}">
+                    <button class="btn secondary" type="submit">Hide from Public</button>
+                </form>
+            </article>
+            {% else %}
+            <p class="section-intro">No feedback has been published yet.</p>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+
 <section class="section light">
     <div class="container">
 

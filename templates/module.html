@@ -189,6 +189,40 @@
 
 </div>
 
+<!-- MODULE QUIZ -->
+<section
+    class="quiz-section"
+    id="module-quiz"
+    data-module-slug="{{ request.view_args.get('slug', '') }}">
+    <div class="quiz-heading">
+        <span class="tag">TEST YOUR KNOWLEDGE</span>
+        <h2>Module <span>Quiz</span></h2>
+        <p>
+            Complete this quiz to check what you have learned in this module.
+            Answer all 10 questions and submit your answers.
+        </p>
+    </div>
+
+    <div class="quiz-container">
+        <div id="quiz-start">
+            <h3>Ready to test yourself?</h3>
+            <p>10 multiple-choice questions · Instant results</p>
+            <button type="button" class="btn primary" id="start-quiz">
+                Start Quiz →
+            </button>
+        </div>
+
+        <form id="quiz-form" hidden>
+            <div id="quiz-questions"></div>
+
+            <button type="submit" class="btn primary">
+                Submit Quiz →
+            </button>
+        </form>
+
+        <div id="quiz-result" hidden></div>
+    </div>
+</section>
 
         <!-- BOTTOM BUTTONS -->
 
@@ -214,5 +248,6 @@
     </div>
 
 </section>
+<script src="{{ url_for('static', filename='js/quiz.js') }}" defer></script>
 
 {% endblock %}

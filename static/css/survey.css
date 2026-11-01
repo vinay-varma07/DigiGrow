@@ -1,3 +1,4 @@
+
 /* Survey page */
 
 .survey-page .form-wrap {
@@ -6,4 +7,143 @@
 
 .survey-page .form-button {
     min-width: 180px;
+}
+
+/* Community Feedback Section */
+
+.community-feedback-section {
+    padding: 90px 0;
+    background: #f7f8fc;
+}
+
+.community-feedback-section .section-heading {
+    max-width: 760px;
+    margin-bottom: 35px;
+}
+
+.community-feedback-section .section-heading h2 {
+    font-size: clamp(32px, 4vw, 48px);
+    margin: 16px 0;
+    color: #172033;
+}
+
+.community-feedback-section .section-intro {
+    color: #64748b;
+    line-height: 1.7;
+}
+
+.community-feedback-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.community-feedback-card {
+    background: #ffffff;
+    border: 1px solid #e5e7f0;
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 8px 25px rgba(25, 35, 60, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.community-feedback-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px rgba(25, 35, 60, 0.09);
+}
+
+.community-feedback-quote {
+    color: #273449;
+    font-size: 17px;
+    line-height: 1.8;
+    margin: 0 0 24px;
+    overflow-wrap: anywhere;
+}
+
+.community-feedback-author {
+    border-top: 1px solid #edf0f5;
+    padding-top: 17px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.community-feedback-author strong {
+    color: #172033;
+    font-size: 15px;
+}
+
+.community-feedback-author span {
+    color: #7b8498;
+    font-size: 13px;
+}
+
+.community-feedback-empty {
+    background: #ffffff;
+    border: 1px solid #e5e7f0;
+    border-radius: 18px;
+    padding: 30px;
+}
+
+.community-feedback-empty h3 {
+    color: #172033;
+    margin: 0 0 8px;
+}
+
+.community-feedback-empty p {
+    color: #64748b;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Feedback Privacy and Consent */
+
+.feedback-consent {
+    background: #f7f7ff;
+    border: 1px solid #e5e3ff;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.feedback-consent p {
+    line-height: 1.7;
+    margin: 0 0 8px;
+}
+
+.consent-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 15px;
+    cursor: pointer;
+    line-height: 1.6;
+}
+
+.consent-option input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin: 3px 0 0;
+    accent-color: #635bff;
+    cursor: pointer;
+}
+
+/* Mobile responsive styling */
+
+@media (max-width: 600px) {
+    .community-feedback-section {
+        padding: 60px 0;
+    }
+
+    .community-feedback-card {
+        padding: 22px;
+    }
+
+    .feedback-consent {
+        padding: 16px;
+    }
+
+    .consent-option {
+        font-size: 14px;
+    }
 }
